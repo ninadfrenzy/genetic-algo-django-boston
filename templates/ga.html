@@ -1,0 +1,76 @@
+{% extends 'base_template.html' %} {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <h1 class="is-size-3">Output</h1>
+  </div>
+</nav>
+<section>
+  <div class="columns">
+    <div class="column is-6 is-md-12 is-offset-3">
+      <div class="card" style="padding: 2rem;">
+        <h1 class="is-size-3">
+          Genetic Model Performance
+        </h1>
+        <table class="table is-bordered">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CV mean squared error</td>
+              <td>{{final_score}}</td>
+            </tr>
+            <tr>
+              <td>Time taken</td>
+              <td>{{timediff}} ms</td>
+            </tr>
+            {% for item in feature_list %}
+            <tr>
+              <td>Best features in generation {{forloop.counter}}</td>
+              <td>{{item}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h1 class="is-size-3">
+          Error in full vs subset of features
+        </h1>
+        <canvas id="myChart" style="margin: 20px;"></canvas>
+        <script>
+          var ctx = document.getElementById("myChart").getContext("2d");
+          var config = {
+            type: "bar",
+            data: {
+              labels: ['Full feature model', 'subset feature model'],
+              datasets: [
+                {
+                  label: "Bar Chart for MSE for model with full feature model vs Subset feature model(Lower is better)",
+                  data: {{bardata|safe}},
+                  backgroundColor: 'rgba(255, 77, 77, 0.8)',
+                  borderColor: 'rgba(0, 128, 255, 0.8)'
+                }
+              ]
+
+            },
+            options: {
+              barThickness: 20,
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
+              }
+            }
+          }
+          var myBarChart = new Chart(ctx, config);
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

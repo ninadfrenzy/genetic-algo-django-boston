@@ -1,0 +1,59 @@
+{% extends 'base_template.html' %} {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <h1 class="is-size-3" style="margin-left: 1rem; font-weight: bold;">VISUALIZATION</h1>
+  </div>
+</nav>
+<section>
+  <div class="columns">
+    <div class="column is-8 is-md-12 is-offset-2">
+      <div class="card" style="padding: 2rem;">
+        <h1 class="is-size-3" style="font-weight: bold;">
+          Correlation matrix
+        </h1>
+        <img src="data:image/png;base64,{{url}}" alt="heatmap">
+        <h1 class="is-size-3" style="font-weight: bold;">
+          Scatter Plots
+        </h1>
+        {% for item, title in scatterplots %}
+        <canvas id="myChart_{{forloop.counter0}}" style="margin: 20px;"></canvas>
+        <script>
+          var ctx = document.getElementById("myChart_{{forloop.counter0}}").getContext("2d");
+          var config = {
+            type: "scatter",
+            data: {
+              datasets: [
+                {
+                  label: "Scatter Plot for {{title}} vs MEDV",
+                  data: {{item|safe}},
+                  pointBackgroundColor: 'rgba(255, 77, 77, 0.8)',
+                  borderColor: 'rgba(0, 128, 255, 0.8)'
+                }
+              ]
+
+            },
+            options: {
+
+              scales: {
+                xAxes: [
+                  {
+                    type: "linear",
+                    position: "bottom",
+
+                  }
+                ]
+              }
+            }
+          };
+          var myChart = new Chart(ctx, config);
+        </script>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- chart js CDN -->
+
+
+{% endblock %}

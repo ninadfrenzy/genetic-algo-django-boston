@@ -1,0 +1,89 @@
+{% extends 'base_template.html' %} {% block content %}
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <h1 class="is-size-3" style="font-weight:bold; margin-left: 20px;">CODE</h1>
+  </div>
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <div class="buttons">
+        <a class="button is-primary" href="/jupyter/">
+          <strong>Jupyter Notebook</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+<section>
+  <div class="columns">
+    <div class="column is-6 is-md-12 is-offset-3">
+      <div class="card" style="padding: 2rem;">
+        <h1 class="is-size-3" style="font-weight:bold;">
+          Linear Regression Model
+        </h1>
+        
+        <p>
+          The linear regression model performance can be seen below:
+        </p>
+        <table class="table is-bordered">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mean Squared Error</td>
+              <td>{{initial_score}}</td>
+            </tr>
+            <tr>
+              <td>Accuracy</td>
+              <td>{{acc}}</td>
+            </tr>
+            <tr>
+              <td>intercept</td>
+              <td>{{intercept}}</td>
+            </tr>
+            <tr>
+              <td>coefficient</td>
+              <td>{{coefficient}}</td>
+            </tr>
+            <tr>
+              <td>time taken</td>
+              <td>{{timediff}} ms</td>
+            </tr>
+          </tbody>
+        </table>
+        <h1 class="is-size-3" style="font-weight:bold;">
+            Genetic Algorithm
+        </h1>
+        <form action="/code/" method="POST">
+          {% csrf_token %}
+          <div class="columns">
+            <div class="column">
+              <label class="label">Population Size</label>
+              <input type="number" name="population_size" class="input">
+            </div>
+            <div class="column">
+              <label class="label">Generations</label>
+              <input type="number" name="num_of_generations" class="input">
+            </div>
+          </div>
+          <div class="columns is-vcentered">
+            
+            <div class="column">
+              <label class="label">Mutation rate</label>
+              <input type="number" name="mutation_rate" class="input">
+            </div>
+            <div class="column">
+              <button type="submit" class="button is-success">Run</button>
+            </div>
+          </div>
+          
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
